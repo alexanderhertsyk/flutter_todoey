@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todoey/constants.dart';
-import 'package:todoey/models/task_model.dart';
+import 'package:todoey/models/app_model.dart';
 
 typedef OnChecked = void Function(bool isChecked);
 
 class TaskWidget extends StatelessWidget {
-  final TaskModel task;
-  final OnChecked onChecked;
+  final int index;
 
-  const TaskWidget({
-    super.key,
-    required this.task,
-    required this.onChecked,
-  });
+  const TaskWidget({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
       activeColor: kAppColor,
       checkColor: Colors.white,
-      value: task.isChecked,
-      onChanged: (isChecked) => onChecked(isChecked!),
+      value: Provider.of<AppModel>(context).tasks[index].isChecked,
+      onChanged: (isChecked) => Provider.of<AppModel>(context, listen: false)
+          .tasks[index]
+          .onChecked(isChecked!),
       title: Text(
-        task.name,
+        Provider.of<AppModel>(context).tasks[index].name,
         style: TextStyle(
-          decoration:
-              task.isChecked ? TextDecoration.lineThrough : TextDecoration.none,
+          decoration: Provider.of<AppModel>(context).tasks[index].isChecked
+              ? TextDecoration.lineThrough
+              : TextDecoration.none,
         ),
       ),
     );

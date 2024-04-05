@@ -10,14 +10,7 @@ class TasksList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: Provider.of<AppModel>(context).tasks.length,
-      itemBuilder: (context, i) => TaskWidget(
-        task: Provider.of<AppModel>(context).tasks[i],
-        onChecked: (isChecked) =>
-            Provider.of<AppModel>(context, listen: false).updateTask(
-          index: i,
-          isChecked: isChecked,
-        ),
-      ),
+      itemBuilder: (context, i) => TaskWidget(index: i),
     );
   }
 }
