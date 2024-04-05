@@ -16,9 +16,11 @@ class TaskWidget extends StatelessWidget {
       activeColor: kAppColor,
       checkColor: Colors.white,
       value: Provider.of<AppModel>(context).tasks[index].isChecked,
-      onChanged: (isChecked) => Provider.of<AppModel>(context, listen: false)
-          .tasks[index]
-          .onChecked(isChecked!),
+      onChanged: (isChecked) =>
+          Provider.of<AppModel>(context, listen: false).updateTask(
+        index: index,
+        isChecked: isChecked!,
+      ),
       title: Text(
         Provider.of<AppModel>(context).tasks[index].name,
         style: TextStyle(
