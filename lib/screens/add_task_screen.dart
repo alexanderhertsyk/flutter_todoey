@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todoey/constants.dart';
-
-typedef OnTaskAdded = void Function(String name);
+import 'package:todoey/models/app_model.dart';
 
 class AddTaskScreen extends StatelessWidget {
   final _newTaskNameController = TextEditingController();
@@ -46,8 +46,11 @@ class AddTaskScreen extends StatelessWidget {
           ),
           const SizedBox(height: 30.0),
           TextButton(
-            onPressed: () =>
-                Navigator.pop(context, _newTaskNameController.text),
+            onPressed: () {
+              Provider.of<AppModel>(context, listen: false)
+                  .addTask(name: _newTaskNameController.text);
+              Navigator.pop(context);
+            },
             style: TextButton.styleFrom(
               shape: const RoundedRectangleBorder(),
               foregroundColor: Colors.white,

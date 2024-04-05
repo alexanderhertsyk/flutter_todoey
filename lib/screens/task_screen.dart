@@ -1,24 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todoey/constants.dart';
-import 'package:todoey/models/task_model.dart';
+import 'package:todoey/models/app_model.dart';
 import 'package:todoey/screens/add_task_screen.dart';
 import 'package:todoey/widgets/task_list.dart';
 
-class TasksScreen extends StatefulWidget {
+class TasksScreen extends StatelessWidget {
   const TasksScreen({super.key});
 
-  @override
-  State<TasksScreen> createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
-  final List<TaskModel> _tasks = [
-    TaskModel(name: 'Buy milk'),
-    TaskModel(name: 'Check cable tv'),
-  ];
-
-  Future<void> _showAddTaskModal(BuildContext context) async {
-    String? newTaskName = await showModalBottomSheet(
+  void _showAddTaskModal(BuildContext context) {
+    showModalBottomSheet(
       useSafeArea: true,
       isScrollControlled: true,
       context: context,
@@ -31,10 +22,6 @@ class _TasksScreenState extends State<TasksScreen> {
         ),
       ),
     );
-
-    if (newTaskName != null) {
-      setState(() => _tasks.add(TaskModel(name: newTaskName)));
-    }
   }
 
   @override
@@ -53,8 +40,8 @@ class _TasksScreenState extends State<TasksScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(
+            Padding(
+              padding: const EdgeInsets.only(
                 top: 60.0,
                 left: 30.0,
                 right: 30.0,
@@ -63,7 +50,7 @@ class _TasksScreenState extends State<TasksScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     backgroundColor: Colors.white,
                     radius: 30.0,
                     child: Icon(
@@ -72,8 +59,8 @@ class _TasksScreenState extends State<TasksScreen> {
                       color: kAppColor,
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  Text(
+                  const SizedBox(height: 10.0),
+                  const Text(
                     'Todoey',
                     style: TextStyle(
                       fontSize: 50.0,
@@ -82,8 +69,8 @@ class _TasksScreenState extends State<TasksScreen> {
                     ),
                   ),
                   Text(
-                    '12 tasks',
-                    style: TextStyle(
+                    '${Provider.of<AppModel>(context).tasks.length} tasks',
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18.0,
                     ),
@@ -104,7 +91,7 @@ class _TasksScreenState extends State<TasksScreen> {
                     topRight: Radius.circular(30.0),
                   ),
                 ),
-                child: TasksList(tasks: _tasks),
+                child: const TasksList(),
               ),
             ),
           ],
