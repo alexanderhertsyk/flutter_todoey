@@ -1,10 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:todoey/constants.dart';
+import 'package:todoey/models/task_model.dart';
 import 'package:todoey/screens/add_task_screen.dart';
 import 'package:todoey/widgets/task_list.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
+
+  @override
+  State<TasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+  final List<TaskModel> _tasks = [
+    TaskModel(name: 'Buy milk'),
+    TaskModel(name: 'Check cable tv'),
+  ];
+
+  Future<void> _showAddTaskModal(BuildContext context) async {
+    String? newTaskName = await showModalBottomSheet(
+      useSafeArea: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: AddTaskScreen(),
+        ),
+      ),
+    );
+
+    if (newTaskName != null) {
+      setState(() => _tasks.add(TaskModel(name: newTaskName)));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,19 +43,7 @@ class TasksScreen extends StatelessWidget {
       backgroundColor: kAppColor,
       floatingActionButton: FloatingActionButton(
         backgroundColor: kAppColor,
-        onPressed: () {
-          showModalBottomSheet(
-            isScrollControlled: true,
-            context: context,
-            builder: (context) => SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen(key: key),
-              ),
-            ),
-          );
-        },
+        onPressed: () => _showAddTaskModal(context),
         child: const Icon(
           Icons.add,
           color: Colors.white,
@@ -36,7 +55,11 @@ class TasksScreen extends StatelessWidget {
           children: [
             const Padding(
               padding: EdgeInsets.only(
-                  top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
+                top: 60.0,
+                left: 30.0,
+                right: 30.0,
+                bottom: 30.0,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -81,7 +104,7 @@ class TasksScreen extends StatelessWidget {
                     topRight: Radius.circular(30.0),
                   ),
                 ),
-                child: const TasksList(),
+                child: TasksList(tasks: _tasks),
               ),
             ),
           ],

@@ -8,7 +8,11 @@ class TaskWidget extends StatelessWidget {
   final TaskModel task;
   final OnChecked onChecked;
 
-  const TaskWidget({super.key, required this.task, required this.onChecked});
+  const TaskWidget({
+    super.key,
+    required this.task,
+    required this.onChecked,
+  });
 
   @override
   Widget build(BuildContext context) {
