@@ -8,9 +8,18 @@ class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: context.watch<AppModel>().tasks.length,
-      itemBuilder: (context, i) => TaskWidget(index: i),
+    return Consumer<AppModel>(
+      builder: (context, appModel, _) {
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: appModel.taskCount,
+          itemBuilder: (context, i) => TaskWidget(
+            appModel.tasks[i],
+            onChecked: (isChecked) =>
+                appModel.updateTask(index: i, isChecked: isChecked!),
+          ),
+        );
+      },
     );
   }
 }

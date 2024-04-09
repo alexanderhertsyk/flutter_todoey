@@ -1,37 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:todoey/constants.dart';
-import 'package:todoey/models/app_model.dart';
+import 'package:todoey/models/task_model.dart';
 
 class TaskWidget extends StatelessWidget {
-  final int index;
+  final TaskModel task;
+  final void Function(bool? isChecked) onChecked;
 
-  const TaskWidget({super.key, required this.index});
+  const TaskWidget(this.task, {super.key, required this.onChecked});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppModel>(
-      builder: (BuildContext context, AppModel appModel, Widget? child) {
-        var task = appModel.tasks[index];
-
-        return CheckboxListTile(
-          activeColor: kAppColor,
-          checkColor: Colors.white,
-          value: task.isChecked,
-          onChanged: (isChecked) => appModel.updateTask(
-            index: index,
-            isChecked: isChecked!,
-          ),
-          title: Text(
-            task.name,
-            style: TextStyle(
-              decoration: task.isChecked
-                  ? TextDecoration.lineThrough
-                  : TextDecoration.none,
-            ),
-          ),
-        );
-      },
+    print('Task ${task.name} is ${task.isChecked ? 'checked' : 'unchecked'}');
+    return CheckboxListTile(
+      activeColor: kAppColor,
+      checkColor: Colors.white,
+      value: task.isChecked,
+      onChanged: onChecked,
+      title: Text(
+        task.name,
+        style: TextStyle(
+          decoration:
+              task.isChecked ? TextDecoration.lineThrough : TextDecoration.none,
+        ),
+      ),
     );
   }
 }
