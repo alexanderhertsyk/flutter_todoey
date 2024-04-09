@@ -9,7 +9,7 @@ class TasksList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: Provider.of<AppModel>(context).tasks.length,
+      itemCount: context.watch<AppModel>().tasks.length,
       itemBuilder: (context, i) => TaskWidget(index: i),
     );
   }

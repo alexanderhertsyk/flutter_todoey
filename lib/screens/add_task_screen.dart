@@ -47,7 +47,8 @@ class AddTaskScreen extends StatelessWidget {
           const SizedBox(height: 30.0),
           TextButton(
             onPressed: () {
-              Provider.of<AppModel>(context, listen: false)
+              context
+                  .read<AppModel>()
                   .addTask(name: _newTaskNameController.text);
               Navigator.pop(context);
             },

@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:todoey/constants.dart';
 import 'package:todoey/models/app_model.dart';
 
-typedef OnChecked = void Function(bool isChecked);
-
 class TaskWidget extends StatelessWidget {
   final int index;
 
@@ -12,23 +10,28 @@ class TaskWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CheckboxListTile(
-      activeColor: kAppColor,
-      checkColor: Colors.white,
-      value: Provider.of<AppModel>(context).tasks[index].isChecked,
-      onChanged: (isChecked) =>
-          Provider.of<AppModel>(context, listen: false).updateTask(
-        index: index,
-        isChecked: isChecked!,
-      ),
-      title: Text(
-        Provider.of<AppModel>(context).tasks[index].name,
-        style: TextStyle(
-          decoration: Provider.of<AppModel>(context).tasks[index].isChecked
-              ? TextDecoration.lineThrough
-              : TextDecoration.none,
-        ),
-      ),
+    return Consumer<AppModel>(
+      builder: (BuildContext context, AppModel appModel, Widget? child) {
+        var task = appModel.tasks[index];
+
+        return CheckboxListTile(
+          activeColor: kAppColor,
+          checkColor: Colors.white,
+          value: task.isChecked,
+          onChanged: (isChecked) => appModel.updateTask(
+            index: index,
+            isChecked: isChecked!,
+          ),
+          title: Text(
+            task.name,
+            style: TextStyle(
+              decoration: task.isChecked
+                  ? TextDecoration.lineThrough
+                  : TextDecoration.none,
+            ),
+          ),
+        );
+      },
     );
   }
 }

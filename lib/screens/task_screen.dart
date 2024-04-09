@@ -69,7 +69,7 @@ class TasksScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${Provider.of<AppModel>(context).tasks.length} tasks',
+                    '${context.watch<AppModel>().tasks.length} tasks',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18.0,
