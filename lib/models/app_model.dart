@@ -14,8 +14,13 @@ class AppModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTask({required int index, required bool isChecked}) {
-    _tasks[index].isChecked = isChecked;
+  void updateTask({required TaskModel task, required bool isChecked}) {
+    task.isChecked = isChecked;
+    notifyListeners();
+  }
+
+  void removeTask(TaskModel task) {
+    _tasks.remove(task);
     notifyListeners();
   }
 }
